@@ -207,6 +207,32 @@ $(".card .list-group").sortable({
       });
   });
 
+  $("#trash").droppable({
+    accept: ".card .list-group-item",
+    tolerance: "touch",
+    drop: function(event, ui) {
+      ui.draggable.remove();
+      console.log("drop");
+    },
+    over: function(event, ui) {
+      console.log("over");
+    },
+    out: function(event, ui) {
+      console.log("out");
+    }
+  });
+  
+  // remove all tasks
+  $("#remove-tasks").on("click", function() {
+    for (var key in tasks) {
+      tasks[key].length = 0;
+      $("#list-" + key).empty();
+    }
+    saveTasks();
+  });
+
+
+  
     // trim down list's ID to match object property
     var arrName = $(this)
       .attr("id")
@@ -218,29 +244,7 @@ $(".card .list-group").sortable({
   }
 });
 
-$("#trash").droppable({
-  accept: ".card .list-group-item",
-  tolerance: "touch",
-  drop: function(event, ui) {
-    ui.draggable.remove();
-    console.log("drop");
-  },
-  over: function(event, ui) {
-    console.log("over");
-  },
-  out: function(event, ui) {
-    console.log("out");
-  }
-});
 
-// remove all tasks
-$("#remove-tasks").on("click", function() {
-  for (var key in tasks) {
-    tasks[key].length = 0;
-    $("#list-" + key).empty();
-  }
-  saveTasks();
-});
 
 // load tasks for the first time
 loadTasks();
